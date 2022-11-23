@@ -7,7 +7,7 @@ function $(raw) {
     ].join('');
 }
 
-const { createCanvas, loadImage, registerFont } = require("canvas");
+const { createCanvas, loadImage, registerFont } = require("@napi-rs/canvas");
 registerFont("/public/roboto.tff", { family: 'Roboto Bold' })
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
