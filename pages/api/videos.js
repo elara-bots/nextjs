@@ -8,7 +8,7 @@ function $(raw) {
 }
 
 const { createCanvas, loadImage, registerFont, GlobalFonts } = require("@napi-rs/canvas");
-GlobalFonts.registerFromPath("/public/roboto.tff", { family: 'Roboto Bold' })
+GlobalFonts.registerFromPath("/public/roboto.tff", 'Roboto Bold')
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 export default async function handler(req, res) {
