@@ -1,5 +1,5 @@
 function $(raw) {
-    const matches = new RegExp(/(?:P)(\d+D)?(?:T)(\d+H)?(\d+M)?(\d+S)/g).exec(raw).filter(t => t && t.match(/\b\d+\w{1}\b/g)).map(t => +t.slice(0, -1));
+    const matches = new RegExp(/(?:P)(\d+D)?(?:T)(\d+H)?(\d+M)?(\d+S)/g)?.exec?.(raw)?.filter?.(t => t && t.match(/\b\d+\w{1}\b/g))?.map(t => +t.slice(0, -1)) || [];
     return [
         matches.length > 2 ? `${matches.length === 4 ? ((matches[0] * 24) + matches[1]) : matches[0]}:` : '',
         matches.length > 2 ? `${matches[matches.length - 2] < 10 ? `0${matches[matches.length - 2]}` : matches[matches.length - 2]}:` : (matches.length === 2 ? `${matches[matches.length - 2]}:` : '0:'),
@@ -7,14 +7,17 @@ function $(raw) {
     ].join('');
 }
 
-const { createCanvas, loadImage, registerFont, GlobalFonts } = require("@napi-rs/canvas");
+const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");
 GlobalFonts.registerFromPath("/public/roboto.tff", 'Roboto Bold')
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 export default async function handler(req, res) {
     const [url, time] = [req.query.url ?? req.query.u, req.query.time ?? req.query.t];
     if (!url || !time) return res.status(400).json({ status: 400, message: 'Missing parameters.' });
-    const thumbnail = await loadImage(url);
+    const thumbnail = await loadImage(url).catch(() => null);
+    if (!thumbnail) {
+        return res.status(400).json({ status: 400, message: `Unable to fetch the thumbnail image data.` });
+    }
     const [ctx, height] = [createCanvas(thumbnail.width, thumbnail.height).getContext('2d'), +((thumbnail.height * 12) / 200).toFixed(0)];
     ctx.font = `${height}px "Roboto Bold"`;
     const width = ctx.measureText($(time)).width;
