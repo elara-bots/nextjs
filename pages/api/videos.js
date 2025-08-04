@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     ctx.drawImage(thumbnail, 0, 0, thumbnail.width, thumbnail.height);
     ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
     ctx.beginPath();
-    ctx.roundRect(thumbnail.width - 30 - width, thumbnail.height - 30 - height, width + 20, height + 20, 10);
+    ctx.strokeRect(thumbnail.width - 30 - width, thumbnail.height - 30 - height, width + 20, height + 20, 10);
     ctx.fill();
     ctx.fillStyle = 'white';
     ctx.fillText($(time), thumbnail.width - 20 - width, thumbnail.height - 25);
