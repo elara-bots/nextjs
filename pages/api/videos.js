@@ -5,7 +5,8 @@ function $(raw) {
         matches.length > 2 ? `${matches[matches.length - 2] < 10 ? `0${matches[matches.length - 2]}` : matches[matches.length - 2]}:` : (matches.length === 2 ? `${matches[matches.length - 2]}:` : '0:'),
         matches[matches.length - 1] < 10 ? `0${matches[matches.length - 1]}` : matches[matches.length - 1]
     ].join('');
-}
+};
+
 
 const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");
 GlobalFonts.registerFromPath("/public/roboto.tff", 'Roboto Bold')
